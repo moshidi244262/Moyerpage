@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moyer - 个人项目作品集 | 春招求职</title>
+    <!-- 引入 Tailwind CSS 进行快速现代设计 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Lucide Icons 图标库 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 引入 Google 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a; /* Slate 900 */
+            color: #f8fafc; /* Slate 50 */
+        }
+        /* 玻璃拟态卡片效果 */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7); /* Slate 800 with opacity */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* 平滑过渡 */
+        .smooth-transition {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* 背景光效 */
+        .bg-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(15,23,42,0) 70%);
+            top: -200px;
+            left: -200px;
+            z-index: -1;
+            border-radius: 50%;
+        }
+        /* 隐藏滚动条但保留功能 */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="antialiased relative overflow-x-hidden selection:bg-brand-500 selection:text-white">
+
+    <!-- 背景装饰 -->
+    <div class="bg-glow"></div>
+    <div class="bg-glow" style="top: auto; bottom: -200px; right: -200px; left: auto; background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, rgba(15,23,42,0) 70%);"></div>
+
+    <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+        
+        <!-- Header / Hero Section -->
+        <header class="mb-20 animate-fade-in-up">
+            <div class="inline-block px-4 py-1.5 rounded-full border border-brand-500/30 bg-brand-500/10 text-brand-400 text-sm font-medium mb-6">
+                🚀 寻找 2026 春季校园招聘机会
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
+                你好，我是 <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-purple-400">Moyer</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-300 max-w-3xl leading-relaxed mb-8">
+                一名过程装备与控制工程专业的本科大四学生。虽然我不是计算机科班出身，但我对新技术充满好奇，擅长将 <strong class="text-brand-400">AI 作为超级助理</strong> 来解决实际问题。
+                <br><br>
+                在这个主页中展示的 Web 应用与工具，均是我利用业余时间，<strong class="text-purple-400">通过与大语言模型（LLM）深度协作、提出 Prompt 并在其辅助下独立完成部署落地的真实项目</strong>。这不仅展现了我的产品思维与逻辑能力，更证明了我对新工具的极强学习与应用能力。
+            </p>
+            <div class="flex flex-wrap gap-4">
+                <a href="https://github.com/moshidi244262" target="_blank" class="flex items-center gap-2 bg-slate-100 hover:bg-white text-slate-900 px-6 py-3 rounded-lg font-medium smooth-transition hover:-translate-y-1 hover:shadow-lg">
+                    <i data-lucide="github" class="w-5 h-5"></i>
+                    访问 GitHub
+                </a>
+                <a href="#projects" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white px-6 py-3 rounded-lg font-medium smooth-transition hover:-translate-y-1">
+                    查看我与 AI 共创的项目
+                    <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- Projects Section -->
+        <section id="projects" class="space-y-16">
+            <h2 class="text-2xl md:text-3xl font-bold flex items-center gap-3 border-b border-slate-800 pb-4">
+                <i data-lucide="folder-code" class="text-brand-400"></i>
+                精选 AI 协同开发项目
+            </h2>
+
+            <!-- 常规项目网格 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- 项目 1: Moyer Space -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col smooth-transition hover:-translate-y-2 hover:shadow-2xl hover:shadow-brand-500/10 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-brand-500/10 text-brand-400 rounded-xl">
+                            <i data-lucide="shield-check" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex gap-2">
+                            <a href="https://github.com/moshidi244262/Moyer-space" target="_blank" class="text-slate-400 hover:text-white smooth-transition p-1" title="GitHub 源码">
+                                <i data-lucide="github" class="w-5 h-5"></i>
+                            </a>
+                            <a href="https://moyer-space.vercel.app/" target="_blank" class="text-slate-400 hover:text-brand-400 smooth-transition p-1" title="在线预览">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 group-hover:text-brand-400 smooth-transition">Moyer Space</h3>
+                    <p class="text-slate-400 text-sm mb-6 flex-grow leading-relaxed">
+                        一个主打高安全性的个人数字资产库。通过与 AI 沟通架构设计，实现了四层独立密码验证，敏感数据基于 Web Crypto API 纯前端加密传输。结合 Serverless 架构实现了防爆破的无状态部署。默认密码全是123456
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded text-xs text-slate-300">架构设计</span>
+                        <span class="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded text-xs text-slate-300">AI代码审查</span>
+                        <span class="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded text-xs text-slate-300">Serverless部署</span>
+                    </div>
+                </div>
+
+                <!-- 项目 2: 个人音乐网站 -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col smooth-transition hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/10 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-purple-500/10 text-purple-400 rounded-xl">
+                            <i data-lucide="music-4" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex gap-2">
+                            <a href="https://github.com/moshidi244262/moyer-music" target="_blank" class="text-slate-400 hover:text-white smooth-transition p-1" title="GitHub 源码">
+                                <i data-lucide="github" class="w-5 h-5"></i>
+                            </a>
+                            <a href="https://moyer-music.vercel.app/" target="_blank" class="text-slate-400 hover:text-purple-400 smooth-transition p-1" title="在线预览">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 group-hover:text-purple-400 smooth-transition">Moyer Music</h3>
+                    <p class="text-slate-400 text-sm mb-6 flex-grow leading-relaxed">
+                        在 AI 的指导下完成的高性能云端音乐流媒体应用。基于 Workbox 定制了音频离线缓存策略，内置前端本地动态解密的“私密空间”，并成功克服报错通过 Capacitor 封装为 Android 原生应用。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded text-xs text-slate-300">功能拆解</span>
+                        <span class="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded text-xs text-slate-300">AI 辅助排错</span>
+                        <span class="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded text-xs text-slate-300">跨端打包</span>
+                    </div>
+                </div>
+
+                <!-- 项目 3: Python 工具集 -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col smooth-transition hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-500/10 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-xl">
+                            <i data-lucide="terminal-square" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex gap-2">
+                            <a href="https://github.com/moshidi244262/Python-Tools" target="_blank" class="text-slate-400 hover:text-white smooth-transition p-1" title="GitHub 源码">
+                                <i data-lucide="github" class="w-5 h-5"></i>
+                            </a>
+                            <a href="https://moshidi244262.github.io/Python-Tools/" target="_blank" class="text-slate-400 hover:text-emerald-400 smooth-transition p-1" title="项目文档">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 group-hover:text-emerald-400 smooth-transition">Python 效率工具箱</h3>
+                    <p class="text-slate-400 text-sm mb-6 flex-grow leading-relaxed">
+                        为解决日常繁琐需求，利用大模型编写维护的 9 款桌面端效率工具集。涵盖本地化 Whisper 音视频转录、多媒体批量压缩等功能。配合 AI 实现了支持拖拽与多线程并发的现代化 GUI 界面。
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded text-xs text-slate-300">需求转化</span>
+                        <span class="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded text-xs text-slate-300">Prompt 工程</span>
+                        <span class="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded text-xs text-slate-300">工具链整合</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 特殊项目: AI QQ 机器人 (横跨全宽) -->
+            <div class="glass-card rounded-2xl p-6 md:p-10 relative overflow-hidden smooth-transition hover:shadow-xl border-l-4 border-l-brand-500">
+                <!-- 装饰背景 -->
+                <div class="absolute right-0 top-0 opacity-5 pointer-events-none">
+                    <i data-lucide="bot" class="w-64 h-64 -mt-10 -mr-10"></i>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 relative z-10">
+                    <!-- 文字描述区 -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="p-2.5 bg-brand-500/20 text-brand-400 rounded-lg">
+                                <i data-lucide="bot-message-square" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white">AI 智能助理群机器人</h3>
+                            <span class="px-2 py-0.5 bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded text-xs font-semibold animate-pulse">
+                                热门落地项目
+                            </span>
+                        </div>
+                        
+                        <div class="space-y-4 text-slate-300 text-sm leading-relaxed mb-8">
+                            <p>
+                                这是一个基于 <strong>natcap</strong> 协议与 <strong>Koishi</strong> 跨平台机器人框架定制开发的 AI 聊天机器人。作为项目的“产品经理兼架构师”，我负责梳理核心业务逻辑，并引导 AI 逐步完成底层代码的编写和调试。
+                            </p>
+                            <p>
+                                <strong>核心成就与运营现状：</strong><br>
+                                目前该机器人已成功接入社交平台，稳定运行在 <strong class="text-brand-400">20 多个活跃群聊</strong> 中，累计与上百名真实用户进行了高频、深度的互动交流。
+                            </p>
+                            <p>
+                                <strong>主要功能点与解决痛点：</strong><br>
+                                • 与 AI 共同设计了多轮上下文对话记忆的逻辑。<br>
+                                • 攻克了群聊复杂语境解析（精准识别 @提及、指令解析拦截等）。<br>
+                                • 部署了健壮的错误处理与调用频率控制（Rate Limit）机制，保障群聊体验及 API 额度安全。<br>
+                                <em class="text-slate-500">注：由于包含私密 API Key 及生产环境配置，本项目代码暂未公开开源。</em>
+                            </p>
+                        </div>
+
+                        <div class="flex flex-wrap gap-2 mb-6 lg:mb-0">
+                            <span class="px-3 py-1 bg-slate-800 border border-slate-700 rounded-full text-xs text-slate-200 shadow-sm flex items-center gap-1.5"><i data-lucide="cpu" class="w-3 h-3 text-brand-400"></i> Koishi 框架</span>
+                            <span class="px-3 py-1 bg-slate-800 border border-slate-700 rounded-full text-xs text-slate-200 shadow-sm flex items-center gap-1.5"><i data-lucide="network" class="w-3 h-3 text-brand-400"></i> natcap</span>
+                            <span class="px-3 py-1 bg-slate-800 border border-slate-700 rounded-full text-xs text-slate-200 shadow-sm flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3 h-3 text-brand-400"></i> LLM 对接配置</span>
+                        </div>
+                    </div>
+
+                    <!-- 图片展示区 (扩展至5张图片，增加点击预览交互) -->
+                    <div class="flex flex-col gap-3">
+                        <h4 class="text-sm font-semibold text-slate-400 mb-1 flex items-center gap-2">
+                            <i data-lucide="images" class="w-4 h-4"></i>
+                            交互与运行效果展示 (5图，点击可放大)
+                        </h4>
+                        
+                        <!-- 第 1 张图：主视觉大图 -->
+                        <div class="cursor-pointer w-full h-44 rounded-xl border border-slate-700 bg-slate-800 overflow-hidden group relative" onclick="openModal('https://moyermusic.cn/moyer-space-cover/AI-bot/1.png')">
+                            <img src="https://moyermusic.cn/moyer-space-cover/AI-bot/1.png" alt="群聊互动核心截图" class="w-full h-full object-cover group-hover:scale-105 smooth-transition">
+                            <!-- 悬浮遮罩 -->
+                            <div class="absolute inset-0 bg-slate-900/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 smooth-transition">
+                                <i data-lucide="zoom-in" class="w-8 h-8 text-brand-400 mb-2"></i>
+                                <span class="text-sm font-medium text-white">点击预览大图</span>
+                            </div>
+                        </div>
+
+                        <!-- 第 2-5 张小图：2x2 网格并排展示 -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="cursor-pointer w-full h-28 rounded-xl border border-slate-700 bg-slate-800 overflow-hidden group relative" onclick="openModal('https://moyermusic.cn/moyer-space-cover/AI-bot/3.png')">
+                                <img src="https://moyermusic.cn/moyer-space-cover/AI-bot/3.png" alt="上下文记忆测试" class="w-full h-full object-cover group-hover:scale-105 smooth-transition">
+                                <div class="absolute inset-0 bg-slate-900/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 smooth-transition">
+                                    <i data-lucide="zoom-in" class="w-6 h-6 text-brand-400 mb-1"></i>
+                                    <span class="text-xs font-medium text-white">多轮对话测试</span>
+                                </div>
+                            </div>
+                            
+                            <div class="cursor-pointer w-full h-28 rounded-xl border border-slate-700 bg-slate-800 overflow-hidden group relative" onclick="openModal('https://moyermusic.cn/moyer-space-cover/AI-bot/8.png')">
+                                <img src="https://moyermusic.cn/moyer-space-cover/AI-bot/8.png" alt="运行数据与速率控制" class="w-full h-full object-cover group-hover:scale-105 smooth-transition">
+                                <div class="absolute inset-0 bg-slate-900/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 smooth-transition">
+                                    <i data-lucide="zoom-in" class="w-6 h-6 text-brand-400 mb-1"></i>
+                                    <span class="text-xs font-medium text-white">速率控制数据</span>
+                                </div>
+                            </div>
+                            
+                            <!-- 竖屏图 1：修改为 object-contain 并加上深色背景以兼容竖屏 -->
+                            <div class="cursor-pointer w-full h-28 rounded-xl border border-slate-700 bg-slate-900 overflow-hidden group relative flex justify-center" onclick="openModal('https://moyermusic.cn/moyer-space-cover/AI-bot/6.jpg')">
+                                <img src="https://moyermusic.cn/moyer-space-cover/AI-bot/6.jpg" alt="Koishi控制台" class="w-full h-full object-contain group-hover:scale-105 smooth-transition">
+                                <div class="absolute inset-0 bg-slate-900/70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 smooth-transition">
+                                    <i data-lucide="zoom-in" class="w-6 h-6 text-brand-400 mb-1"></i>
+                                    <span class="text-xs font-medium text-white">竖屏:控制台</span>
+                                </div>
+                            </div>
+                            
+                            <!-- 竖屏图 2：修改为 object-contain 并加上深色背景以兼容竖屏 -->
+                            <div class="cursor-pointer w-full h-28 rounded-xl border border-slate-700 bg-slate-900 overflow-hidden group relative flex justify-center" onclick="openModal('https://moyermusic.cn/moyer-space-cover/AI-bot/7.jpg')">
+                                <img src="https://moyermusic.cn/moyer-space-cover/AI-bot/7.jpg" alt="业务逻辑配置" class="w-full h-full object-contain group-hover:scale-105 smooth-transition">
+                                <div class="absolute inset-0 bg-slate-900/70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 smooth-transition">
+                                    <i data-lucide="zoom-in" class="w-6 h-6 text-brand-400 mb-1"></i>
+                                    <span class="text-xs font-medium text-white">竖屏:逻辑配置</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-24 pt-8 border-t border-slate-800 text-center text-slate-500 text-sm">
+            <p>© 2026 Moyer (moshidi244262). 为春招准备而设计。</p>
+            <p class="mt-2 flex items-center justify-center gap-1">
+                Made with <i data-lucide="sparkles" class="w-3 h-3 text-slate-400"></i> AI & Passion.
+            </p>
+        </footer>
+    </div>
+
+    <!-- 图片预览模态框 (Lightbox) -->
+    <div id="imageModal" class="fixed inset-0 z-50 hidden bg-slate-950/90 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 transition-opacity duration-300" onclick="closeModal()">
+        <div class="relative w-full h-full flex items-center justify-center max-w-5xl mx-auto">
+            <!-- 关闭按钮 -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 md:top-8 md:right-8 text-slate-400 hover:text-white bg-slate-800/50 hover:bg-slate-700 p-2 rounded-full smooth-transition z-50">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <!-- 预览的图片 -->
+            <img id="modalImage" src="" alt="预览大图" class="max-w-full max-h-full rounded-lg shadow-2xl object-contain" onclick="event.stopPropagation()">
+        </div>
+    </div>
+
+    <!-- 初始化图标与脚本 -->
+    <script>
+        // 初始化 Lucide 图标
+        lucide.createIcons();
+        
+        // 平滑滚动脚本
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 模态框逻辑
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+
+        function openModal(imageSrc) {
+            modalImg.src = imageSrc;
+            modal.classList.remove('hidden');
+            // 强制重绘以确保 transition 动画生效
+            void modal.offsetWidth; 
+            modal.classList.remove('opacity-0');
+            modal.classList.add('opacity-100');
+            // 禁止底层页面滚动
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            // 等待渐隐动画结束后隐藏 DOM
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modalImg.src = '';
+                // 恢复底层页面滚动
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // 监听 ESC 键关闭模态框
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape" && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
