@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Moyer - 个人项目作品集 | 春招求职</title>
     <!-- 引入 Tailwind CSS 进行快速现代设计 -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -35,17 +35,25 @@
             background-color: #0f172a; /* Slate 900 */
             color: #f8fafc; /* Slate 50 */
         }
-        /* 玻璃拟态卡片效果 */
+        
+        /* --- 修复问题2：解决滑动过快出现“空区域”的问题 --- */
         .glass-card {
-            background: rgba(30, 41, 59, 0.7); /* Slate 800 with opacity */
+            background: rgba(30, 41, 59, 0.7); 
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); /* 兼容 Safari */
             border: 1px solid rgba(255, 255, 255, 0.1);
+            
+            /* 强制开启 GPU 硬件加速，防止大量重绘导致滚动时出现白块/空区域 */
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            backface-visibility: hidden;
+            will-change: transform, opacity;
         }
-        /* 平滑过渡 */
+
         .smooth-transition {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        /* 背景光效 */
+
         .bg-glow {
             position: absolute;
             width: 600px;
@@ -55,14 +63,27 @@
             left: -200px;
             z-index: -1;
             border-radius: 50%;
+            /* 背景光效不参与鼠标事件，且开启硬件加速 */
+            pointer-events: none;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
         }
-        /* 隐藏滚动条但保留功能 */
+
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
         .no-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
+        }
+
+        /* 补充缺少的进场动画定义 */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
         }
     </style>
 </head>
@@ -90,7 +111,7 @@
             <div class="flex flex-wrap gap-4">
                 <a href="https://github.com/moshidi244262" target="_blank" class="flex items-center gap-2 bg-slate-100 hover:bg-white text-slate-900 px-6 py-3 rounded-lg font-medium smooth-transition hover:-translate-y-1 hover:shadow-lg">
                     <i data-lucide="github" class="w-5 h-5"></i>
-                    访问 GitHub
+                    访问我的 GitHub
                 </a>
                 <a href="#projects" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white px-6 py-3 rounded-lg font-medium smooth-transition hover:-translate-y-1">
                     查看我与 AI 共创的项目
@@ -232,17 +253,15 @@
                         </div>
                     </div>
 
-                    <!-- 图片展示区 (扩展至5张图片，增加点击预览交互) -->
+                    <!-- 图片展示区 -->
                     <div class="flex flex-col gap-3">
                         <h4 class="text-sm font-semibold text-slate-400 mb-1 flex items-center gap-2">
                             <i data-lucide="images" class="w-4 h-4"></i>
-                            交互与运行效果展示 (5图，点击可放大)
                         </h4>
                         
                         <!-- 第 1 张图：主视觉大图 -->
                         <div class="cursor-pointer w-full h-44 rounded-xl border border-slate-700 bg-slate-800 overflow-hidden group relative" onclick="openModal('https://moyermusic.cn/moyer-space-cover/AI-bot/1.png')">
                             <img src="https://moyermusic.cn/moyer-space-cover/AI-bot/1.png" alt="群聊互动核心截图" class="w-full h-full object-cover group-hover:scale-105 smooth-transition">
-                            <!-- 悬浮遮罩 -->
                             <div class="absolute inset-0 bg-slate-900/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 smooth-transition">
                                 <i data-lucide="zoom-in" class="w-8 h-8 text-brand-400 mb-2"></i>
                                 <span class="text-sm font-medium text-white">点击预览大图</span>
@@ -255,7 +274,7 @@
                                 <img src="https://moyermusic.cn/moyer-space-cover/AI-bot/3.png" alt="上下文记忆测试" class="w-full h-full object-cover group-hover:scale-105 smooth-transition">
                                 <div class="absolute inset-0 bg-slate-900/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 smooth-transition">
                                     <i data-lucide="zoom-in" class="w-6 h-6 text-brand-400 mb-1"></i>
-                                    <span class="text-xs font-medium text-white">多轮对话测试</span>
+                                    <span class="text-xs font-medium text-white"></span>
                                 </div>
                             </div>
                             
@@ -263,25 +282,23 @@
                                 <img src="https://moyermusic.cn/moyer-space-cover/AI-bot/8.png" alt="运行数据与速率控制" class="w-full h-full object-cover group-hover:scale-105 smooth-transition">
                                 <div class="absolute inset-0 bg-slate-900/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 smooth-transition">
                                     <i data-lucide="zoom-in" class="w-6 h-6 text-brand-400 mb-1"></i>
-                                    <span class="text-xs font-medium text-white">速率控制数据</span>
+                                    <span class="text-xs font-medium text-white"></span>
                                 </div>
                             </div>
                             
-                            <!-- 竖屏图 1：修改为 object-contain 并加上深色背景以兼容竖屏 -->
                             <div class="cursor-pointer w-full h-28 rounded-xl border border-slate-700 bg-slate-900 overflow-hidden group relative flex justify-center" onclick="openModal('https://moyermusic.cn/moyer-space-cover/AI-bot/6.jpg')">
                                 <img src="https://moyermusic.cn/moyer-space-cover/AI-bot/6.jpg" alt="Koishi控制台" class="w-full h-full object-contain group-hover:scale-105 smooth-transition">
                                 <div class="absolute inset-0 bg-slate-900/70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 smooth-transition">
                                     <i data-lucide="zoom-in" class="w-6 h-6 text-brand-400 mb-1"></i>
-                                    <span class="text-xs font-medium text-white">竖屏:控制台</span>
+                                    <span class="text-xs font-medium text-white"></span>
                                 </div>
                             </div>
                             
-                            <!-- 竖屏图 2：修改为 object-contain 并加上深色背景以兼容竖屏 -->
                             <div class="cursor-pointer w-full h-28 rounded-xl border border-slate-700 bg-slate-900 overflow-hidden group relative flex justify-center" onclick="openModal('https://moyermusic.cn/moyer-space-cover/AI-bot/7.jpg')">
                                 <img src="https://moyermusic.cn/moyer-space-cover/AI-bot/7.jpg" alt="业务逻辑配置" class="w-full h-full object-contain group-hover:scale-105 smooth-transition">
                                 <div class="absolute inset-0 bg-slate-900/70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 smooth-transition">
                                     <i data-lucide="zoom-in" class="w-6 h-6 text-brand-400 mb-1"></i>
-                                    <span class="text-xs font-medium text-white">竖屏:逻辑配置</span>
+                                    <span class="text-xs font-medium text-white"></span>
                                 </div>
                             </div>
                         </div>
@@ -299,21 +316,28 @@
         </footer>
     </div>
 
-    <!-- 图片预览模态框 (Lightbox) -->
-    <div id="imageModal" class="fixed inset-0 z-50 hidden bg-slate-950/90 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 transition-opacity duration-300" onclick="closeModal()">
-        <div class="relative w-full h-full flex items-center justify-center max-w-5xl mx-auto">
-            <!-- 关闭按钮 -->
-            <button onclick="closeModal()" class="absolute top-4 right-4 md:top-8 md:right-8 text-slate-400 hover:text-white bg-slate-800/50 hover:bg-slate-700 p-2 rounded-full smooth-transition z-50">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
-            <!-- 预览的图片 -->
-            <img id="modalImage" src="" alt="预览大图" class="max-w-full max-h-full rounded-lg shadow-2xl object-contain" onclick="event.stopPropagation()">
+    <!-- 图片预览模态框 -->
+    <div id="imageModal" class="fixed inset-0 z-[100] hidden bg-slate-950/95 backdrop-blur-md flex items-center justify-center p-6 md:p-12 opacity-0 transition-opacity duration-300" onclick="closeModal()">
+        
+        <!-- 关闭按钮 -->
+        <button onclick="closeModal()" class="absolute top-5 right-5 md:top-8 md:right-8 text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 p-2.5 rounded-full smooth-transition z-[110] shadow-lg border border-slate-700/50">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+
+        <div class="relative w-full h-full flex flex-col items-center justify-center max-w-6xl mx-auto pointer-events-none overflow-hidden">
+            <img id="modalImage" src="" alt="预览大图" 
+                 class="pointer-events-auto max-w-[90vw] max-h-[85vh] md:max-w-[85vw] md:max-h-[85vh] rounded-xl shadow-2xl object-contain cursor-zoom-in touch-none" 
+                 onclick="toggleZoom(event)">
+        </div>
+        
+        <div id="zoomTip" class="absolute bottom-8 left-1/2 -translate-x-1/2 px-4 py-2 bg-slate-800/90 rounded-full text-slate-300 text-xs flex items-center gap-2 pointer-events-none transition-opacity duration-300 border border-slate-700/50 shadow-lg">
+            <span id="zoomIconContainer"><i data-lucide="zoom-in" class="w-4 h-4 text-brand-400"></i></span>
+            <span id="zoomTipText">双指缩放，或点击放大</span>
         </div>
     </div>
 
     <!-- 初始化图标与脚本 -->
     <script>
-        // 初始化 Lucide 图标
         lucide.createIcons();
         
         // 平滑滚动脚本
@@ -326,32 +350,199 @@
             });
         });
 
-        // 模态框逻辑
+        // ==========================================
+        // --- 修复问题1：新增双指缩放 (Pinch-to-zoom) ---
+        // ==========================================
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
+        const zoomTip = document.getElementById('zoomTip');
+        
+        let scale = 1;
+        let translateX = 0;
+        let translateY = 0;
+        let isDragging = false;
+        let startX, startY;
+        let prevTranslateX = 0, prevTranslateY = 0;
+        
+        // 新增手势缩放变量
+        let initialDistance = 0;
+        let initialScale = 1;
+        const MAX_SCALE = 5; // 最大放大5倍
+        const MIN_SCALE = 1;
+
+        // 计算两个触点之间的距离（勾股定理）
+        function getDistance(touches) {
+            const dx = touches[0].clientX - touches[1].clientX;
+            const dy = touches[0].clientY - touches[1].clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        // 应用位移和缩放变换
+        function updateTransform() {
+            if (isDragging || initialDistance > 0) {
+                // 拖拽或手势缩放时取消过渡动画，保证跟手不延迟
+                modalImg.style.transition = 'none';
+            } else {
+                // 点击缩放或者回弹时开启平滑过渡
+                modalImg.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)';
+            }
+            modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        }
+
+        // 重置图片位置和状态
+        function resetZoom() {
+            scale = 1;
+            translateX = 0;
+            translateY = 0;
+            prevTranslateX = 0;
+            prevTranslateY = 0;
+            initialDistance = 0;
+            modalImg.style.cursor = 'zoom-in';
+            
+            // 更新提示 UI
+            document.getElementById('zoomTipText').innerText = '双指缩放，或点击放大';
+            document.getElementById('zoomIconContainer').innerHTML = '<i data-lucide="zoom-in" class="w-4 h-4 text-brand-400"></i>';
+            lucide.createIcons();
+            
+            updateTransform();
+        }
+
+        // 保留点击图片放大2倍的快捷方式
+        function toggleZoom(event) {
+            event.stopPropagation(); 
+            if (scale === 1) {
+                scale = 2; 
+                modalImg.style.cursor = 'grab';
+                document.getElementById('zoomTipText').innerText = '可拖拽，再次点击还原';
+                document.getElementById('zoomIconContainer').innerHTML = '<i data-lucide="move" class="w-4 h-4 text-brand-400"></i>';
+                lucide.createIcons();
+            } else {
+                resetZoom();
+            }
+            updateTransform();
+        }
 
         function openModal(imageSrc) {
             modalImg.src = imageSrc;
             modal.classList.remove('hidden');
-            // 强制重绘以确保 transition 动画生效
             void modal.offsetWidth; 
             modal.classList.remove('opacity-0');
             modal.classList.add('opacity-100');
-            // 禁止底层页面滚动
             document.body.style.overflow = 'hidden';
+            resetZoom();
         }
 
         function closeModal() {
             modal.classList.remove('opacity-100');
             modal.classList.add('opacity-0');
-            // 等待渐隐动画结束后隐藏 DOM
             setTimeout(() => {
                 modal.classList.add('hidden');
                 modalImg.src = '';
-                // 恢复底层页面滚动
-                document.body.style.overflow = 'auto';
+                document.body.style.overflow = '';
+                resetZoom();
             }, 300);
         }
+
+        // ----- 拖拽互动核心事件 -----
+        const handleDragStart = (clientX, clientY) => {
+            if (scale > 1) {
+                isDragging = true;
+                modalImg.style.cursor = 'grabbing';
+                startX = clientX;
+                startY = clientY;
+                zoomTip.style.opacity = '0.3'; 
+            }
+        };
+
+        const handleDragMove = (clientX, clientY, event) => {
+            if (isDragging && scale > 1) {
+                event.preventDefault(); 
+                const dx = clientX - startX;
+                const dy = clientY - startY;
+                translateX = prevTranslateX + dx;
+                translateY = prevTranslateY + dy;
+                updateTransform();
+            }
+        };
+
+        const handleDragEnd = () => {
+            if (isDragging) {
+                isDragging = false;
+                modalImg.style.cursor = 'grab';
+                prevTranslateX = translateX;
+                prevTranslateY = translateY;
+                zoomTip.style.opacity = '1';
+                updateTransform(); 
+            }
+        };
+
+        // --- 核心修改：绑定移动端触摸事件（支持双指） ---
+        modalImg.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                // 单指触发拖拽
+                handleDragStart(e.touches[0].clientX, e.touches[0].clientY);
+            } else if (e.touches.length === 2) {
+                // 双指触发缩放
+                isDragging = false; 
+                initialDistance = getDistance(e.touches);
+                initialScale = scale;
+            }
+        }, { passive: false });
+        
+        modalImg.addEventListener('touchmove', (e) => {
+            // 极其重要：全面阻止图片上的 touchmove 默认事件
+            // 这保证了在双指缩放图片时，主页面绝对不会跟着放大或滚动
+            e.preventDefault(); 
+            
+            if (e.touches.length === 1 && isDragging) {
+                // 单指移动：拖拽逻辑
+                handleDragMove(e.touches[0].clientX, e.touches[0].clientY, e);
+            } else if (e.touches.length === 2) {
+                // 双指移动：缩放逻辑
+                const currentDistance = getDistance(e.touches);
+                if (initialDistance > 0) {
+                    const distanceRatio = currentDistance / initialDistance;
+                    let newScale = initialScale * distanceRatio;
+                    
+                    // 限制缩放最大和最小值
+                    scale = Math.min(Math.max(newScale, MIN_SCALE), MAX_SCALE);
+                    updateTransform();
+                    
+                    if (scale > 1) {
+                        modalImg.style.cursor = 'grab';
+                        document.getElementById('zoomTipText').innerText = '松开手指保持，或单指拖拽';
+                        document.getElementById('zoomIconContainer').innerHTML = '<i data-lucide="move" class="w-4 h-4 text-brand-400"></i>';
+                        lucide.createIcons();
+                    }
+                }
+            }
+        }, { passive: false });
+        
+        modalImg.addEventListener('touchend', (e) => {
+            if (e.touches.length < 2) {
+                initialDistance = 0; // 手指离开，重置双指初始距离
+            }
+            if (e.touches.length === 0) {
+                handleDragEnd();
+                // 如果用户缩放得太小，松手时回弹到 1 倍
+                if (scale < MIN_SCALE) {
+                    resetZoom();
+                }
+            } else if (e.touches.length === 1 && scale > 1) {
+                // 从双指变成单指时，将剩下的单指无缝衔接为拖拽起点
+                handleDragStart(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        });
+
+        // 绑定 PC 端鼠标事件
+        modalImg.addEventListener('mousedown', (e) => {
+            e.preventDefault(); 
+            handleDragStart(e.clientX, e.clientY);
+        });
+        window.addEventListener('mousemove', (e) => {
+            handleDragMove(e.clientX, e.clientY, e);
+        });
+        window.addEventListener('mouseup', handleDragEnd);
 
         // 监听 ESC 键关闭模态框
         document.addEventListener('keydown', function(event) {
