@@ -103,7 +103,7 @@
         <!-- 全屏/沉浸模式引导按钮 -->
         <button id="fullscreen-toggle" class="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-brand-500 to-purple-600 text-white shadow-lg shadow-brand-500/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group animate-pulse">
             <i data-lucide="maximize" id="fs-icon" class="w-4 h-4"></i>
-            <span id="fs-text" class="text-sm font-semibold tracking-wide">开启沉浸体验</span>
+            <span id="fs-text" class="text-sm font-semibold tracking-wide">全屏</span>
         </button>
 
         <!-- 主题切换按钮 -->
@@ -398,7 +398,7 @@
                 fullscreenBtn.classList.remove('bg-gradient-to-r', 'from-brand-500', 'to-purple-600', 'text-white', 'shadow-brand-500/30', 'animate-pulse');
                 fullscreenBtn.classList.add('bg-white/70', 'dark:bg-slate-800/70', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-700', 'backdrop-blur-md');
                 fsIcon.setAttribute('data-lucide', 'minimize');
-                fsText.innerText = '退出沉浸';
+                fsText.innerText = '退出全屏';
             } else {
                 // 退出全屏：恢复引导用户的显眼样式
                 fullscreenBtn.classList.add('bg-gradient-to-r', 'from-brand-500', 'to-purple-600', 'text-white', 'shadow-brand-500/30', 'animate-pulse');
