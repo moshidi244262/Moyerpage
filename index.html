@@ -32,14 +32,9 @@
         }
     </script>
     <style>
-        /* 移除 body 硬编码颜色，交由 tailwind classes 处理以支持主题切换 */
-        
         .glass-card {
-            /* 移除固定背景，改用 tailwind classes 控制 */
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px); /* 兼容 Safari */
-            
-            /* 强制开启 GPU 硬件加速，防止大量重绘导致滚动时出现白块/空区域 */
+            -webkit-backdrop-filter: blur(10px); 
             transform: translateZ(0);
             -webkit-transform: translateZ(0);
             backface-visibility: hidden;
@@ -55,7 +50,6 @@
             width: 600px;
             height: 600px;
             border-radius: 50%;
-            /* 背景光效不参与鼠标事件，且开启硬件加速 */
             pointer-events: none;
             transform: translateZ(0);
             -webkit-transform: translateZ(0);
@@ -70,7 +64,6 @@
             scrollbar-width: none;
         }
 
-        /* 进场动画定义 */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -82,40 +75,35 @@
 </head>
 <body class="antialiased relative overflow-x-hidden transition-colors duration-500 bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-50 selection:bg-brand-500 selection:text-white">
 
-    <!-- 
-      修复底部留白问题：
-      新建一个固定脱离文档流、并隐藏溢出的外层容器。
-      这样光晕元素（bg-glow）无论怎么定位、超长多少，都不会撑开页面的滚动高度了。
-    -->
     <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-        <!-- 日间模式光晕 (采用模糊效果更自然) -->
         <div class="bg-glow dark:hidden bg-brand-400/20 blur-[80px]" style="top: -200px; left: -200px;"></div>
         <div class="bg-glow dark:hidden bg-purple-400/20 blur-[80px]" style="bottom: -200px; right: -200px;"></div>
 
-        <!-- 深色模式光晕 (采用原有的径向渐变) -->
         <div class="bg-glow hidden dark:block" style="top: -200px; left: -200px; background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(15,23,42,0) 70%);"></div>
         <div class="bg-glow hidden dark:block" style="bottom: -200px; right: -200px; background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, rgba(15,23,42,0) 70%);"></div>
     </div>
 
-    <!-- 顶部悬浮控制区 (全屏与主题切换) 
-         使用 absolute 代替 fixed，使其随页面滚动 -->
-    <div class="absolute top-6 right-6 z-50 flex items-center gap-3">
+    <!-- 顶部悬浮控制区 -->
+    <!-- 适当调小了手机端的 top 和 right 边距，让按钮更紧凑 -->
+    <div class="absolute top-4 right-4 md:top-6 md:right-6 z-50 flex items-center gap-3">
         <!-- 全屏/沉浸模式引导按钮 -->
-        <button id="fullscreen-toggle" class="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-brand-500 to-purple-600 text-white shadow-lg shadow-brand-500/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group animate-pulse">
+        <button id="fullscreen-toggle" class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-500 to-purple-600 text-white shadow-lg shadow-brand-500/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group animate-pulse">
             <i data-lucide="maximize" id="fs-icon" class="w-4 h-4"></i>
             <span id="fs-text" class="text-sm font-semibold tracking-wide">全屏</span>
         </button>
 
         <!-- 主题切换按钮 -->
-        <button id="theme-toggle" class="p-3 rounded-full bg-white/70 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 backdrop-blur-md shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-            <!-- 浅色模式下显示太阳 -->
+        <button id="theme-toggle" class="p-2.5 md:p-3 rounded-full bg-white/70 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 backdrop-blur-md shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
             <i data-lucide="sun" class="w-5 h-5 text-orange-500 block dark:hidden group-hover:rotate-45 transition-transform duration-300"></i>
-            <!-- 深色模式下显示月亮 -->
             <i data-lucide="moon" class="w-5 h-5 text-blue-400 hidden dark:block group-hover:-rotate-12 transition-transform duration-300"></i>
         </button>
     </div>
 
-    <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+    <!-- 
+      核心修改：增加了 pt-24 (移动端顶部留白96px) 和 md:pt-32 (电脑端顶部留白128px)
+      这样就能给上面的 absolute 按钮留出安全的显示空间，不会重叠了
+    -->
+    <div class="max-w-6xl mx-auto px-6 pt-24 pb-16 md:pt-32 md:pb-24">
         
         <!-- Header / Hero Section -->
         <header class="mb-20 animate-fade-in-up">
@@ -149,9 +137,7 @@
                 精选 AI 协同开发项目
             </h2>
 
-            <!-- 常规项目网格 -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                
                 <!-- 项目 1: Moyer Space -->
                 <div class="glass-card bg-white/60 dark:bg-slate-800/60 border border-slate-200 dark:border-white/10 rounded-2xl p-6 flex flex-col smooth-transition hover:-translate-y-2 shadow-sm hover:shadow-xl hover:shadow-brand-500/10 dark:shadow-none dark:hover:shadow-brand-500/10 group">
                     <div class="flex justify-between items-start mb-4">
@@ -233,13 +219,11 @@
 
             <!-- 特殊项目: AI QQ 机器人 (横跨全宽) -->
             <div class="glass-card bg-white/70 dark:bg-slate-800/60 rounded-2xl p-6 md:p-10 relative overflow-hidden smooth-transition hover:shadow-xl shadow-md dark:shadow-none border border-slate-200 dark:border-transparent border-l-4 border-l-brand-500 dark:border-l-brand-500">
-                <!-- 装饰背景 -->
                 <div class="absolute right-0 top-0 opacity-5 dark:opacity-10 pointer-events-none text-slate-900 dark:text-white">
                     <i data-lucide="bot" class="w-64 h-64 -mt-10 -mr-10"></i>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 relative z-10">
-                    <!-- 文字描述区 -->
                     <div>
                         <div class="flex items-center gap-3 mb-4">
                             <div class="p-2.5 bg-brand-500/20 text-brand-600 dark:text-brand-400 rounded-lg">
@@ -275,13 +259,11 @@
                         </div>
                     </div>
 
-                    <!-- 图片展示区 -->
                     <div class="flex flex-col gap-3">
                         <h4 class="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-1 flex items-center gap-2">
                             <i data-lucide="images" class="w-4 h-4"></i>
                         </h4>
                         
-                        <!-- 第 1 张图：主视觉大图 -->
                         <div class="cursor-pointer w-full h-44 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 overflow-hidden group relative" onclick="openModal('https://moyermusic.cn/moyer-space-cover/AI-bot/1.png')">
                             <img src="https://moyermusic.cn/moyer-space-cover/AI-bot/1.png" alt="群聊互动核心截图" class="w-full h-full object-cover group-hover:scale-105 smooth-transition">
                             <div class="absolute inset-0 bg-slate-900/50 dark:bg-slate-900/70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 smooth-transition">
@@ -290,7 +272,6 @@
                             </div>
                         </div>
 
-                        <!-- 第 2-5 张小图：2x2 网格并排展示 -->
                         <div class="grid grid-cols-2 gap-3">
                             <div class="cursor-pointer w-full h-28 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 overflow-hidden group relative" onclick="openModal('https://moyermusic.cn/moyer-space-cover/AI-bot/3.png')">
                                 <img src="https://moyermusic.cn/moyer-space-cover/AI-bot/3.png" alt="上下文记忆测试" class="w-full h-full object-cover group-hover:scale-105 smooth-transition">
@@ -334,10 +315,8 @@
         </footer>
     </div>
 
-    <!-- 图片预览模态框 (默认保持暗色背景方便看图) -->
+    <!-- 图片预览模态框 -->
     <div id="imageModal" class="fixed inset-0 z-[100] hidden bg-slate-900/95 backdrop-blur-md flex items-center justify-center p-6 md:p-12 opacity-0 transition-opacity duration-300" onclick="closeModal()">
-        
-        <!-- 关闭按钮 -->
         <button onclick="closeModal()" class="absolute top-5 right-5 md:top-8 md:right-8 text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 p-2.5 rounded-full smooth-transition z-[110] shadow-lg border border-slate-700/50">
             <i data-lucide="x" class="w-6 h-6"></i>
         </button>
@@ -367,7 +346,6 @@
 
         function toggleFullScreen() {
             if (!document.fullscreenElement) {
-                // 请求全屏 (带兼容性处理)
                 const docElm = document.documentElement;
                 if (docElm.requestFullscreen) {
                     docElm.requestFullscreen();
@@ -377,7 +355,6 @@
                     docElm.msRequestFullscreen();
                 }
             } else {
-                // 退出全屏
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
                 } else if (document.webkitExitFullscreen) {
@@ -390,21 +367,20 @@
 
         fullscreenBtn.addEventListener('click', toggleFullScreen);
 
-        // 监听全屏状态变化，自动更新按钮的 UI 样式和文案
         function updateFullscreenUI() {
             const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
             if (isFullscreen) {
-                // 进入全屏：移除亮眼特效，变更为低调的样式
+                // 进入全屏时的样式和文字
                 fullscreenBtn.classList.remove('bg-gradient-to-r', 'from-brand-500', 'to-purple-600', 'text-white', 'shadow-brand-500/30', 'animate-pulse');
                 fullscreenBtn.classList.add('bg-white/70', 'dark:bg-slate-800/70', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-700', 'backdrop-blur-md');
                 fsIcon.setAttribute('data-lucide', 'minimize');
                 fsText.innerText = '退出全屏';
             } else {
-                // 退出全屏：恢复引导用户的显眼样式
+                // 退出全屏时的样式和文字
                 fullscreenBtn.classList.add('bg-gradient-to-r', 'from-brand-500', 'to-purple-600', 'text-white', 'shadow-brand-500/30', 'animate-pulse');
                 fullscreenBtn.classList.remove('bg-white/70', 'dark:bg-slate-800/70', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-700', 'backdrop-blur-md');
                 fsIcon.setAttribute('data-lucide', 'maximize');
-                fsText.innerText = '开启沉浸体验';
+                fsText.innerText = '全屏';
             }
             lucide.createIcons();
         }
@@ -413,7 +389,6 @@
         document.addEventListener('webkitfullscreenchange', updateFullscreenUI);
         document.addEventListener('msfullscreenchange', updateFullscreenUI);
 
-        // 附加：移动端屏幕左滑/右滑退出全屏的手势支持
         let fsTouchStartX = 0;
         document.addEventListener('touchstart', e => {
             if (document.fullscreenElement) {
@@ -424,7 +399,6 @@
         document.addEventListener('touchend', e => {
             if (document.fullscreenElement) {
                 let fsTouchEndX = e.changedTouches[0].screenX;
-                // 检测横向滑动距离超过 80px，判断为滑动意图，退出全屏
                 if (Math.abs(fsTouchEndX - fsTouchStartX) > 80) {
                     if (document.exitFullscreen) document.exitFullscreen();
                 }
@@ -433,19 +407,17 @@
 
 
         // ==========================================
-        // --- 主题切换逻辑 (Dark / Light Mode) ---
+        // --- 主题切换逻辑 ---
         // ==========================================
         const themeToggleBtn = document.getElementById('theme-toggle');
         const htmlElement = document.documentElement;
 
-        // 初始化判断：检查 localStorage 记录，如果为空则默认为 dark（因为 class 默认写了 dark）
         if (localStorage.getItem('theme') === 'light') {
             htmlElement.classList.remove('dark');
         } else {
             htmlElement.classList.add('dark');
         }
 
-        // 绑定点击切换事件
         themeToggleBtn.addEventListener('click', () => {
             htmlElement.classList.toggle('dark');
             if (htmlElement.classList.contains('dark')) {
@@ -455,7 +427,6 @@
             }
         });
         
-        // 平滑滚动脚本
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -466,23 +437,16 @@
         });
 
         // ==========================================
-        // --- 双指缩放与拖拽图片预览逻辑 ---
+        // --- 双指缩放与拖拽 ---
         // ==========================================
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
         const zoomTip = document.getElementById('zoomTip');
         
-        let scale = 1;
-        let translateX = 0;
-        let translateY = 0;
-        let isDragging = false;
-        let startX, startY;
-        let prevTranslateX = 0, prevTranslateY = 0;
-        
-        let initialDistance = 0;
-        let initialScale = 1;
-        const MAX_SCALE = 5; 
-        const MIN_SCALE = 1;
+        let scale = 1, translateX = 0, translateY = 0, isDragging = false;
+        let startX, startY, prevTranslateX = 0, prevTranslateY = 0;
+        let initialDistance = 0, initialScale = 1;
+        const MAX_SCALE = 5, MIN_SCALE = 1;
 
         function getDistance(touches) {
             const dx = touches[0].clientX - touches[1].clientX;
@@ -500,18 +464,11 @@
         }
 
         function resetZoom() {
-            scale = 1;
-            translateX = 0;
-            translateY = 0;
-            prevTranslateX = 0;
-            prevTranslateY = 0;
-            initialDistance = 0;
+            scale = 1; translateX = 0; translateY = 0; prevTranslateX = 0; prevTranslateY = 0; initialDistance = 0;
             modalImg.style.cursor = 'zoom-in';
-            
             document.getElementById('zoomTipText').innerText = '双指缩放，或点击放大';
             document.getElementById('zoomIconContainer').innerHTML = '<i data-lucide="zoom-in" class="w-4 h-4 text-brand-400"></i>';
             lucide.createIcons();
-            
             updateTransform();
         }
 
@@ -554,8 +511,7 @@
             if (scale > 1) {
                 isDragging = true;
                 modalImg.style.cursor = 'grabbing';
-                startX = clientX;
-                startY = clientY;
+                startX = clientX; startY = clientY;
                 zoomTip.style.opacity = '0.3'; 
             }
         };
@@ -563,10 +519,8 @@
         const handleDragMove = (clientX, clientY, event) => {
             if (isDragging && scale > 1) {
                 event.preventDefault(); 
-                const dx = clientX - startX;
-                const dy = clientY - startY;
-                translateX = prevTranslateX + dx;
-                translateY = prevTranslateY + dy;
+                translateX = prevTranslateX + (clientX - startX);
+                translateY = prevTranslateY + (clientY - startY);
                 updateTransform();
             }
         };
@@ -575,8 +529,7 @@
             if (isDragging) {
                 isDragging = false;
                 modalImg.style.cursor = 'grab';
-                prevTranslateX = translateX;
-                prevTranslateY = translateY;
+                prevTranslateX = translateX; prevTranslateY = translateY;
                 zoomTip.style.opacity = '1';
                 updateTransform(); 
             }
@@ -597,13 +550,10 @@
             if (e.touches.length === 1 && isDragging) {
                 handleDragMove(e.touches[0].clientX, e.touches[0].clientY, e);
             } else if (e.touches.length === 2) {
-                const currentDistance = getDistance(e.touches);
                 if (initialDistance > 0) {
-                    const distanceRatio = currentDistance / initialDistance;
-                    let newScale = initialScale * distanceRatio;
+                    let newScale = initialScale * (getDistance(e.touches) / initialDistance);
                     scale = Math.min(Math.max(newScale, MIN_SCALE), MAX_SCALE);
                     updateTransform();
-                    
                     if (scale > 1) {
                         modalImg.style.cursor = 'grab';
                         document.getElementById('zoomTipText').innerText = '松开手指保持，或单指拖拽';
@@ -615,33 +565,19 @@
         }, { passive: false });
         
         modalImg.addEventListener('touchend', (e) => {
-            if (e.touches.length < 2) {
-                initialDistance = 0; 
-            }
+            if (e.touches.length < 2) initialDistance = 0; 
             if (e.touches.length === 0) {
                 handleDragEnd();
-                if (scale < MIN_SCALE) {
-                    resetZoom();
-                }
+                if (scale < MIN_SCALE) resetZoom();
             } else if (e.touches.length === 1 && scale > 1) {
                 handleDragStart(e.touches[0].clientX, e.touches[0].clientY);
             }
         });
 
-        modalImg.addEventListener('mousedown', (e) => {
-            e.preventDefault(); 
-            handleDragStart(e.clientX, e.clientY);
-        });
-        window.addEventListener('mousemove', (e) => {
-            handleDragMove(e.clientX, e.clientY, e);
-        });
+        modalImg.addEventListener('mousedown', (e) => { e.preventDefault(); handleDragStart(e.clientX, e.clientY); });
+        window.addEventListener('mousemove', (e) => handleDragMove(e.clientX, e.clientY, e));
         window.addEventListener('mouseup', handleDragEnd);
-
-        document.addEventListener('keydown', function(event) {
-            if (event.key === "Escape" && !modal.classList.contains('hidden')) {
-                closeModal();
-            }
-        });
+        document.addEventListener('keydown', e => { if (e.key === "Escape" && !modal.classList.contains('hidden')) closeModal(); });
     </script>
 </body>
 </html>
