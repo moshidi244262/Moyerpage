@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="dark">
+<html lang="zh-CN" class="dark bg-slate-50 dark:bg-slate-900 transition-colors duration-500">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -32,8 +32,12 @@
         }
     </script>
     <style>
+        /* 修复移动端底部拉伸露出默认白色的问题 */
+        html, body {
+            overscroll-behavior-y: none; /* 禁用移动端上下滑动的橡皮筋回弹效果 */
+        }
+
         /* 移除 body 硬编码颜色，交由 tailwind classes 处理以支持主题切换 */
-        
         .glass-card {
             /* 移除固定背景，改用 tailwind classes 控制 */
             backdrop-filter: blur(10px);
