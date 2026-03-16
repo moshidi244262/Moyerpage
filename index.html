@@ -83,31 +83,28 @@
         <div class="bg-glow hidden dark:block" style="bottom: -200px; right: -200px; background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, rgba(15,23,42,0) 70%);"></div>
     </div>
 
-    <!-- 顶部悬浮控制区 -->
-    <!-- 适当调小了手机端的 top 和 right 边距，让按钮更紧凑 -->
-    <div class="absolute top-4 right-4 md:top-6 md:right-6 z-50 flex items-center gap-3">
-        <!-- 全屏/沉浸模式引导按钮 -->
-        <button id="fullscreen-toggle" class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-500 to-purple-600 text-white shadow-lg shadow-brand-500/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group animate-pulse">
-            <i data-lucide="maximize" id="fs-icon" class="w-4 h-4"></i>
-            <span id="fs-text" class="text-sm font-semibold tracking-wide">全屏</span>
+    <!-- 顶部悬浮控制区：改为竖排 flex-col -->
+    <div class="absolute top-4 right-4 md:top-6 md:right-6 z-50 flex flex-col items-center gap-3">
+        <!-- 全屏/沉浸模式引导按钮：去除文字，改为统一大小的圆角 -->
+        <button id="fullscreen-toggle" title="全屏切换" class="p-2.5 md:p-3 rounded-full bg-gradient-to-r from-brand-500 to-purple-600 text-white shadow-lg shadow-brand-500/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group animate-pulse">
+            <i data-lucide="maximize" id="fs-icon" class="w-5 h-5"></i>
         </button>
 
         <!-- 主题切换按钮 -->
-        <button id="theme-toggle" class="p-2.5 md:p-3 rounded-full bg-white/70 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 backdrop-blur-md shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+        <button id="theme-toggle" title="日夜模式切换" class="p-2.5 md:p-3 rounded-full bg-white/70 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 backdrop-blur-md shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
             <i data-lucide="sun" class="w-5 h-5 text-orange-500 block dark:hidden group-hover:rotate-45 transition-transform duration-300"></i>
             <i data-lucide="moon" class="w-5 h-5 text-blue-400 hidden dark:block group-hover:-rotate-12 transition-transform duration-300"></i>
         </button>
     </div>
 
     <!-- 
-      核心修改：增加了 pt-24 (移动端顶部留白96px) 和 md:pt-32 (电脑端顶部留白128px)
-      这样就能给上面的 absolute 按钮留出安全的显示空间，不会重叠了
+      核心修改：减小 pt 的值，消除左上角的明显留白，让内容整体上移 
     -->
-    <div class="max-w-6xl mx-auto px-6 pt-24 pb-16 md:pt-32 md:pb-24">
+    <div class="max-w-6xl mx-auto px-6 pt-8 pb-16 md:pt-16 md:pb-24">
         
         <!-- Header / Hero Section -->
         <header class="mb-20 animate-fade-in-up">
-            <div class="inline-block px-4 py-1.5 rounded-full border border-brand-500/30 bg-brand-500/10 text-brand-700 dark:text-brand-400 text-sm font-medium mb-6">
+            <div class="inline-block px-4 py-1.5 rounded-full border border-brand-500/30 bg-brand-500/10 text-brand-700 dark:text-brand-400 text-sm font-medium mb-6 mt-4">
                 🚀 寻找 2026 春季校园招聘机会
             </div>
             <h1 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
@@ -342,7 +339,6 @@
         // ==========================================
         const fullscreenBtn = document.getElementById('fullscreen-toggle');
         const fsIcon = document.getElementById('fs-icon');
-        const fsText = document.getElementById('fs-text');
 
         function toggleFullScreen() {
             if (!document.fullscreenElement) {
@@ -370,17 +366,15 @@
         function updateFullscreenUI() {
             const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
             if (isFullscreen) {
-                // 进入全屏时的样式和文字
+                // 进入全屏时的样式
                 fullscreenBtn.classList.remove('bg-gradient-to-r', 'from-brand-500', 'to-purple-600', 'text-white', 'shadow-brand-500/30', 'animate-pulse');
                 fullscreenBtn.classList.add('bg-white/70', 'dark:bg-slate-800/70', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-700', 'backdrop-blur-md');
                 fsIcon.setAttribute('data-lucide', 'minimize');
-                fsText.innerText = '退出全屏';
             } else {
-                // 退出全屏时的样式和文字
+                // 退出全屏时的样式
                 fullscreenBtn.classList.add('bg-gradient-to-r', 'from-brand-500', 'to-purple-600', 'text-white', 'shadow-brand-500/30', 'animate-pulse');
                 fullscreenBtn.classList.remove('bg-white/70', 'dark:bg-slate-800/70', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-700', 'backdrop-blur-md');
                 fsIcon.setAttribute('data-lucide', 'maximize');
-                fsText.innerText = '全屏';
             }
             lucide.createIcons();
         }
